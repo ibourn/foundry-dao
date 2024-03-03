@@ -17,11 +17,16 @@ import {Nonces} from "@openzeppelin/contracts/utils/Nonces.sol";
  *     Token balance not accounting for voting power => needs to delegate to themselves (or another account).
  *     Snapshotting is used to keep track of voting power and avoid use of flashloan to manipulate votes.
  *     -> checkPoint keeps track of the last time the voting power was updated.
- *     -> _afterTokenTransfer updates the voting power of the sender and receiver calling _moveVotingPower 
+ *     -> _afterTokenTransfer updates the voting power of the sender and receiver calling _moveVotingPower
  *     which uses _writeCheckpoint to update the voting power.
  */
-contract MyToken is ERC20, ERC20Permit, ERC20Votes {
-    constructor() ERC20("MyToken", "MTK") ERC20Permit("MyToken") {}
+contract GovToken is ERC20, ERC20Permit, ERC20Votes {
+    constructor() ERC20("GovToken", "GTK") ERC20Permit("GovToken") {}
+
+    // @dev Don't let it be called by anyone ! (like this only to demonstrate tests)
+    function mint(address to, uint256 amount) public {
+        _mint(to, amount);
+    }
 
     // The following functions are overrides required by Solidity.
 
